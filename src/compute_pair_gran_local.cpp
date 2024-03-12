@@ -338,6 +338,7 @@ int ComputePairGranLocal::count_pairs()
       if (j >= nall) j %= nall;
 
       if (!(mask[j] & groupbit)) continue;
+      //Count pairs with particles at different partitions only at one partition (include if tag[i]>tag[j])
       if (newton_pair == 0 && j >= nlocal && atom->tag[i] <= atom->tag[j]) continue;
 
       m++;
@@ -366,15 +367,16 @@ void ComputePairGranLocal::add_pair(int i,int j,double fx,double fy,double fz,do
     double *xi,*xj,xi_w[3],xj_w[3],*vi,*vj;
     int nlocal;
 
-    if (!array || ipair >= ncount)
-        error->one(FLERR,"Internal error in ComputePairGranLocal::add_pair - inconsistent pair count");
     //NP return if pair not meant to be included (was not counted in the count() procedure
     if (!(atom->mask[i] & groupbit)) return;
     if (!(atom->mask[j] & groupbit)) return;
 
+    // return if pair is not meant to be included from this partition (include if tag[i]>tag[j])
     nlocal = atom->nlocal;
-
     if (newton_pair == 0 && j >= nlocal && atom->tag[i] <= atom->tag[j]) return;
+
+    if (!array || ipair >= ncount)
+        error->one(FLERR,"Internal error in ComputePairGranLocal::add_pair - inconsistent pair count");
 
     if (hfflag) {
         // since heat flux is only calculated for pairs in contact

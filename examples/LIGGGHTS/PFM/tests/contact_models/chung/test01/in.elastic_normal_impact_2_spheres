@@ -34,6 +34,8 @@ variable DENSITY            index 2800   # 2500
 # 'granular' (or 'sphere') style uses diameter, mass and angular velocity
 atom_style      granular
 
+processors * 1 1
+
 # use an array to map particle IDs to local storage index,
 # do not sort atoms spatially
 atom_modify     map array sort 0 0
