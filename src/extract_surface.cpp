@@ -102,25 +102,25 @@ void ExtractSurface::command(int narg, char **arg)
       chooser->SetFileName(filename);
       if (!chooser->IsFileUnstructuredGrid()) {
         chooser->Delete();
-        error->all(FLERR,"extract_surface requires unstructured grid dataset");
+        error->one(FLERR,"extract_surface requires unstructured grid dataset");
       }
       ugrid = read_file<vtkUnstructuredGridReader>(filename);
     } else if (suffix > filename && strcmp(suffix,".vtu") == 0) {
       vtkXMLUnstructuredGridReader *chooser = vtkXMLUnstructuredGridReader::New();
       if (!chooser->CanReadFile(filename)) {
         chooser->Delete();
-        error->all(FLERR,"extract_surface cannot read input file");
+        error->one(FLERR,"extract_surface cannot read input file");
       }
       ugrid = read_file<vtkXMLUnstructuredGridReader>(filename);
     } else {
-      error->all(FLERR,"extract_surface: invalid input file");
+      error->one(FLERR,"extract_surface: invalid input file");
     }
 
     // check cell types
     int ncells = ugrid->GetNumberOfCells();
     for (int i = 0; i < ncells; ++i) {
       if(ugrid->GetCellType(i) != VTK_HEXAHEDRON)
-        error->all(FLERR,"extract_surface: input file contains non-hexahedral cells");
+        error->one(FLERR,"extract_surface: input file contains non-hexahedral cells");
     }
 
     // check cell data
@@ -328,10 +328,10 @@ void ExtractSurface::extrude(int /*narg*/, char **arg, vtkDataSet* dset)
 {
   char *filename = arg[3];
   if(strcmp(arg[4],"extrude_length"))
-    error->all(FLERR,"extrude_surface: expecting keyword 'extrude_length'");
+    error->one(FLERR,"extrude_surface: expecting keyword 'extrude_length'");
   double ScaleFactor = atof(arg[5]);
   if(strcmp(arg[6],"min_rad"))
-    error->all(FLERR,"extrude_surface: expecting keyword 'min_rad'");
+    error->one(FLERR,"extrude_surface: expecting keyword 'min_rad'");
   double atom_radius = atof(arg[7]);
 
   const double scale_out = atom_radius;
@@ -345,7 +345,7 @@ void ExtractSurface::extrude(int /*narg*/, char **arg, vtkDataSet* dset)
   numCells = input->GetNumberOfCells();
 
   if (numPts < 1 || numCells < 1) {
-    error->all(FLERR,"No data to extrude!");
+    error->one(FLERR,"No data to extrude!");
   }
 
   vtkSmartPointer<vtkUnstructuredGrid> output = vtkSmartPointer<vtkUnstructuredGrid>::New();
@@ -417,7 +417,7 @@ void ExtractSurface::extrude(int /*narg*/, char **arg, vtkDataSet* dset)
       int npoints = cell->GetNumberOfPoints();
 
       if (npoints < 4) {
-        error->all(FLERR,"Unexpected number of points in vtk cell\n");
+        error->one(FLERR,"Unexpected number of points in vtk cell\n");
       } else if (npoints > 4) {
 
         pointsleft = npoints;
