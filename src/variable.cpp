@@ -349,11 +349,19 @@ void Variable::set(int narg, char **arg)
   // data = 2 values, 1st is string to eval, 2nd is filled on retrieval
 
   } else if (strcmp(arg[1],"equal") == 0) {
-    if (narg != 3) error->all(FLERR,"Illegal variable command (style 'equal' takes exactly one argument)");
+    if (narg != 3){
+        char message[100];
+        snprintf(message,100, "Illegal variable command: %s (style 'equal' takes exactly one argument)",arg[0]);
+        error->all(FLERR,message);
+    }
     int ivar = find(arg[0]);
     if (ivar >= 0) {
-      if (style[find(arg[0])] != EQUAL)
-        error->all(FLERR,"Cannot redefine variable as a different style");
+      if (style[find(arg[0])] != EQUAL){
+        char message[100];
+        snprintf(message,100, "Cannot redefine variable %s as a different style",arg[0]);
+        error->all(FLERR,message);
+      }
+
       delete [] data[ivar][0];
       copy(1,&arg[2],data[ivar]);
       replaceflag = 1;
