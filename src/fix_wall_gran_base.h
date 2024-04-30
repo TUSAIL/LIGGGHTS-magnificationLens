@@ -190,7 +190,6 @@ public:
       cmodel.noCollision(cdata, i_forces, j_forces);
     }
 
-
     if (cdata.computeflag) {
       if (cdata.has_force_update)
         force_update(f, torque, i_forces);
@@ -202,6 +201,10 @@ public:
 
     if(wg->compute_pair_gran_local() && wg->addflag()) {
       wg->cwl_add_wall_2(cdata, i_forces);
+    }
+
+    if (force->pair->evflag){
+        wg->ev_tally_xyz(cdata.i, atom->nlocal, force->newton_pair,i_forces.delta_F[0],i_forces.delta_F[1],i_forces.delta_F[2],cdata.delta[0],cdata.delta[1],cdata.delta[2]);
     }
   }
 };

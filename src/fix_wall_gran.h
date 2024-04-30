@@ -169,6 +169,10 @@ class FixWallGran : public Fix, public LIGGGHTS::IContactHistorySetup {
     cwl_->add_wall_2(cdata.i,fx,fy,fz,tor1,tor2,tor3,cdata.contact_history,cdata.rsq,normal);
   }
 
+  void ev_tally_xyz(int i, int nlocal, int newton_pair,
+                    double fx, double fy, double fz,
+                    double delx, double dely, double delz);
+
  protected:
 
   int iarg_, narg_;

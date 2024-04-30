@@ -1296,3 +1296,33 @@ void FixWallGran::addHeatFlux(TriMesh *mesh,int ip, double delta_n, double area_
 int64_t FixWallGran::hashcode() {
   return impl->hashcode();
 }
+
+/* ----------------------------------------------------------------------
+   tally virial into per-atom accumulators
+   for virial, have delx,dely,delz and fx,fy,fz
+------------------------------------------------------------------------- */
+
+void FixWallGran::ev_tally_xyz(int i, int nlocal, int newton_pair,
+                        double fx, double fy, double fz,
+                        double delx, double dely, double delz)
+{
+    double v[6];
+
+    v[0] = delx * fx;
+    v[1] = dely * fy;
+    v[2] = delz * fz;
+    v[3] = delx * fy;
+    v[4] = delx * fz;
+    v[5] = dely * fz;
+
+    if (force->pair->vflag_atom) {
+        if (newton_pair || i < nlocal) {
+            force->pair->vatom[i][0] += 0.5 * v[0];
+            force->pair->vatom[i][1] += 0.5 * v[1];
+            force->pair->vatom[i][2] += 0.5 * v[2];
+            force->pair->vatom[i][3] += 0.5 * v[3];
+            force->pair->vatom[i][4] += 0.5 * v[4];
+            force->pair->vatom[i][5] += 0.5 * v[5];
+        }
+    }
+}

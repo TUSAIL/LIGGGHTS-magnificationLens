@@ -22,6 +22,11 @@ keyword = {ke} or {pair} or {bond} or {angle} or {dihedral} or {improper} or {ks
 compute 1 mobile stress/atom
 compute 1 all stress/atom pair bond :pre
 
+[LIGGGHTS vs. LAMMPS Info:]
+
+In LIGGGHTS, this command includes stress contributions from
+"granular wall"_fix_wall_gran.html contacts.
+
 [Description:]
 
 Define a computation that computes the symmetric per-atom stress
