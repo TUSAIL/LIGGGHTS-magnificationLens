@@ -852,6 +852,7 @@ of each style or click on the style itself for a full description:
 "rigid/small"_fix_rigid.html,
 "scale/diameter"_fix_scale_diameter.html,
 "setforce"_fix_setforce.html,
+"setvelocity"_fix_setvelocity.html,
 "shake"_fix_shake.html,
 "smd"_fix_smd.html,
 "speedcontrol"_fix_speedcontrol.html,

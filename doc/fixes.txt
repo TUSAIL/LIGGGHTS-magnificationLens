@@ -137,6 +137,7 @@ Fixes :h1
    fix_rigid
    fix_scale_diameter
    fix_setforce
+   fix_setvelocity
    fix_shake
    fix_smd
    fix_speedcontrol
