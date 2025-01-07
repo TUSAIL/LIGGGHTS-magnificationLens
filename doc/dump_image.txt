@@ -96,8 +96,8 @@ see the full-size images:
 
 <DIV ALIGN=center>
 
-:image(JPG/dump1_small.jpg,JPG/dump1.jpg)
-:image(JPG/dump2_small.jpg,JPG/dump2.jpg)
+:image(img/dump1_small.jpg,img/dump1.jpg)
+:image(img/dump2_small.jpg,img/dump2.jpg)
 
 </DIV>
 

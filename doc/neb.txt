@@ -395,8 +395,8 @@ neb_combine.py script run on the dump files produced by the two
 example input scripts in examples/neb.  Click on them to see a larger
 image.
 
-:image(JPG/hop1_small.jpg,JPG/hop1.jpg)
-:image(JPG/hop2_small.jpg,JPG/hop2.jpg)
+:image(img/hop1_small.jpg,img/hop1.jpg)
+:image(img/hop2_small.jpg,img/hop2.jpg)
 
 :line
 

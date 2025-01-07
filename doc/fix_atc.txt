@@ -32,7 +32,7 @@ fix AtC internal atc field :pre
 
 This fix is the beginning to creating a coupled FE/MD simulation and/or an on-the-fly estimation of continuum fields. The coupled versions of this fix do Verlet integration and the post-processing does not. After instantiating this fix, several other fix_modify commands will be needed to set up the problem, e.g. define the finite element mesh and prescribe initial and boundary conditions.
 
-:c,image(JPG/atc_nanotube.jpg)
+:c,image(img/atc_nanotube.jpg)
 
 The following coupling example is typical, but non-exhaustive:
  # ... commands to create and initialize the MD system :pre

@@ -12,23 +12,23 @@ Motivation :h4
 
 The MPI/OpenMP hybrid parallelization in LIGGGHTS is a new way to achieve better load-balancing within simulations. Traditional MPI simulations can only be load-balanced using "fix/balance"_fix_balance.html. The following figure illustrates how static 8x1 decomposition might look like. In this example colors are used to show areas which require high amount of computational work (red) in contract to other areas which leave processors idle (blue). Using a static decomposition processes the boundaries of the domain can become idle quickly. To avoid this, MPI dynamic load balancing was introduced with "fix/balance"_fix_balance.html. It adjusts the boundaries making sure each subdomain has an equal amount of particles in them.
 
-:c,image(1Ddecomposition.png)
+:c,image(img/1Ddecomposition.png)
 
 MPI load-balancing works very well with simple decompositions. However load-imbalance remains a dominant issue if higher number of cores used. At some point decomposing along one dimension alone will no longer add any benefit. Adding a cut to additional dimensions will only work well if the load is symmetric. The following figure shows how the symmetric testcase can easily be computed using 16 processes in stead of 8 by adding another decomposition along the y-Axis.
 
-:c,image(2Ddecomposition.png)
+:c,image(img/2Ddecomposition.png)
 
 Unsymmetrical loads are very difficult to decompose. The margin of error is significant. Simulations can take 2x-4x more time if decompositions are chosen poorly and MPI load-balancing used improperly. The following illustrates a simulation which is harder to decompose because the cuts in space span the entire domain.
 
-:c,image(2Ddecomposition_unsymmetric.png)
+:c,image(img/2Ddecomposition_unsymmetric.png)
 
 A hybrid parallelization which uses MPI and OpenMP allows us to reduce the amount of MPI processes and let automatic partitioning figure out a good decomposition inside our subdomains. In our next Figure we show how the hybrid can use only two MPI processes to cut the domain in half along the y-Axis and then partitions the subdomains among 8 threads. In other words, our hybrid parallelization adds a second layer of parallelization to LIGGGHTS which is more flexible and does automatic load-balancing.
 
-:c,image(2Ddecomposition_hybrid.png)
+:c,image(img/2Ddecomposition_hybrid.png)
 
 The main idea behind using a hybrid parallelization therefore is to first split the domain into large, potentially MPI-load-balanced portions. Each MPI subdomain is then further partitioned for a given number of threads.
 
-:c,image(Hybrid_Overview.png)
+:c,image(img/Hybrid_Overview.png)
 
 Installation :h4
 

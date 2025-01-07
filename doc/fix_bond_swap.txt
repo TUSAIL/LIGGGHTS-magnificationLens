@@ -40,7 +40,7 @@ LAMMPS does not enforce this requirement, i.e. any
 
 A schematic of the kinds of bond swaps that can occur is shown here:
 
-:c,image(JPG/bondswap.jpg)
+:c,image(img/bondswap.jpg)
 
 On the left, the red and blue chains have two monomers A1 and B1 close
 to each other, which are currently bonded to monomers A2 and B2

@@ -638,7 +638,7 @@ source code for individual scripts for comments about what they do.
 Here are screenshots of the vizplotgui_tool.py script in action for
 different visualization package options.  Click to see larger images:
 
-:image(JPG/screenshot_gl_small.jpg,JPG/screenshot_gl.jpg)
-:image(JPG/screenshot_atomeye_small.jpg,JPG/screenshot_atomeye.jpg)
-:image(JPG/screenshot_pymol_small.jpg,JPG/screenshot_pymol.jpg)
-:image(JPG/screenshot_vmd_small.jpg,JPG/screenshot_vmd.jpg)
+:image(img/screenshot_gl_small.jpg,img/screenshot_gl.jpg)
+:image(img/screenshot_atomeye_small.jpg,img/screenshot_atomeye.jpg)
+:image(img/screenshot_pymol_small.jpg,img/screenshot_pymol.jpg)
+:image(img/screenshot_vmd_small.jpg,img/screenshot_vmd.jpg)

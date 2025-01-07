@@ -29,7 +29,7 @@ Academic version :c
 END_RST -->
 
 :line
-:c,image(Portfolio_LIGGGHTS.png)
+:c,image(img/Portfolio_LIGGGHTS.png)
 :line
 
 <!-- HTML_ONLY -->

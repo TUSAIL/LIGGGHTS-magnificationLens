@@ -76,7 +76,7 @@ the default partitioning of the simulation box across processors (one
 sub-box for each of 16 processors); the right diagram is after
 balancing.
 
-:c,image(JPG/balance.jpg)
+:c,image(img/balance.jpg)
 
 When the balance command completes, it prints out the final positions
 of all cutting planes in each of the 3 dimensions (as fractions of the

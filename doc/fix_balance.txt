@@ -67,7 +67,7 @@ the default partitioning of the simulation box across processors (one
 sub-box for each of 16 processors); the right diagram is after
 balancing.
 
-:c,image(JPG/balance.jpg)
+:c,image(img/balance.jpg)
 
 IMPORTANT NOTE: This command attempts to minimize the imbalance
 factor, as defined above.  But because of the topology constraint that
