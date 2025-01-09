@@ -90,6 +90,7 @@ To define those material properties, it is mandatory to use multiple :doc:`fix p
 **Force Limiting:**
 
 Note, that not using limitForce might lead to attractive forces between particles and walls, especially in case the coefficient of restitution is small. Be sure you include this key word for the pair style and the wall model if you like to avoid this.
+
 Restrictions
 """"""""""""
 
