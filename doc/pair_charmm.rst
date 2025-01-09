@@ -1,0 +1,243 @@
+.. index:: pair\_style lj/charmm/coul/charmm
+
+pair\_style lj/charmm/coul/charmm command
+=========================================
+
+pair\_style lj/charmm/coul/charmm/cuda command
+==============================================
+
+pair\_style lj/charmm/coul/charmm/omp command
+=============================================
+
+pair\_style lj/charmm/coul/charmm/implicit command
+==================================================
+
+pair\_style lj/charmm/coul/charmm/implicit/cuda command
+=======================================================
+
+pair\_style lj/charmm/coul/charmm/implicit/omp command
+======================================================
+
+pair\_style lj/charmm/coul/long command
+=======================================
+
+pair\_style lj/charmm/coul/long/cuda command
+============================================
+
+pair\_style lj/charmm/coul/long/gpu command
+===========================================
+
+pair\_style lj/charmm/coul/long/opt command
+===========================================
+
+pair\_style lj/charmm/coul/long/omp command
+===========================================
+
+pair\_style lj/charmm/coul/msm command
+======================================
+
+pair\_style lj/charmm/coul/msm/omp command
+==========================================
+
+Syntax
+""""""
+
+
+.. parsed-literal::
+
+   pair_style style args
+
+* style = *lj/charmm/coul/charmm* or *lj/charmm/coul/charmm/implicit* or *lj/charmm/coul/long* or *lj/charmm/coul/msm*
+* args = list of arguments for a particular style
+
+
+.. parsed-literal::
+
+     *lj/charmm/coul/charmm* args = inner outer (inner2) (outer2)
+       inner, outer = global switching cutoffs for Lennard Jones (and Coulombic if only 2 args)
+       inner2, outer2 = global switching cutoffs for Coulombic (optional)
+     *lj/charmm/coul/charmm/implicit* args = inner outer (inner2) (outer2)
+       inner, outer = global switching cutoffs for LJ (and Coulombic if only 2 args)
+       inner2, outer2 = global switching cutoffs for Coulombic (optional)
+     *lj/charmm/coul/long* args = inner outer (cutoff)
+       inner, outer = global switching cutoffs for LJ (and Coulombic if only 2 args)
+       cutoff = global cutoff for Coulombic (optional, outer is Coulombic cutoff if only 2 args)
+     *lj/charmm/coul/msm* args = inner outer (cutoff)
+       inner, outer = global switching cutoffs for LJ (and Coulombic if only 2 args)
+       cutoff = global cutoff for Coulombic (optional, outer is Coulombic cutoff if only 2 args)
+
+Examples
+""""""""
+
+
+.. parsed-literal::
+
+   pair_style lj/charmm/coul/charmm 8.0 10.0
+   pair_style lj/charmm/coul/charmm 8.0 10.0 7.0 9.0
+   pair_coeff \* \* 100.0 2.0
+   pair_coeff 1 1 100.0 2.0 150.0 3.5
+
+   pair_style lj/charmm/coul/charmm/implicit 8.0 10.0
+   pair_style lj/charmm/coul/charmm/implicit 8.0 10.0 7.0 9.0
+   pair_coeff \* \* 100.0 2.0
+   pair_coeff 1 1 100.0 2.0 150.0 3.5
+
+   pair_style lj/charmm/coul/long 8.0 10.0
+   pair_style lj/charmm/coul/long 8.0 10.0 9.0
+   pair_coeff \* \* 100.0 2.0
+   pair_coeff 1 1 100.0 2.0 150.0 3.5
+
+   pair_style lj/charmm/coul/msm 8.0 10.0
+   pair_style lj/charmm/coul/msm 8.0 10.0 9.0
+   pair_coeff \* \* 100.0 2.0
+   pair_coeff 1 1 100.0 2.0 150.0 3.5
+
+Description
+"""""""""""
+
+The *lj/charmm* styles compute LJ and Coulombic interactions with an
+additional switching function S(r) that ramps the energy and force
+smoothly to zero between an inner and outer cutoff.  It is a widely
+used potential in the `CHARMM <http://www.scripps.edu/brooks>`_ MD code.
+See :ref:`(MacKerell) <MacKerell>` for a description of the CHARMM force
+field.
+
+.. image:: Eqs/pair_charmm.jpg
+   :align: center
+
+Both the LJ and Coulombic terms require an inner and outer cutoff.
+They can be the same for both formulas or different depending on
+whether 2 or 4 arguments are used in the pair\_style command.  In each
+case, the inner cutoff distance must be less than the outer cutoff.
+It it typical to make the difference between the 2 cutoffs about 1.0
+Angstrom.
+
+Style *lj/charmm/coul/charmm/implicit* computes the same formulas as
+style *lj/charmm/coul/charmm* except that an additional 1/r term is
+included in the Coulombic formula.  The Coulombic energy thus varies
+as 1/r\^2.  This is effectively a distance-dependent dielectric term
+which is a simple model for an implicit solvent with additional
+screening.  It is designed for use in a simulation of an unsolvated
+biomolecule (no explicit water molecules).
+
+Styles *lj/charmm/coul/long* and *lj/charmm/coul/msm* compute the same
+formulas as style *lj/charmm/coul/charmm* except that an additional
+damping factor is applied to the Coulombic term, as described for the
+:doc:`lj/cut <pair_lj>` pair styles.  Only one Coulombic cutoff is
+specified for *lj/charmm/coul/long* and *lj/charmm/coul/msm*\ ; if only
+2 arguments are used in the pair\_style command, then the outer LJ
+cutoff is used as the single Coulombic cutoff.
+
+The following coefficients must be defined for each pair of atoms
+types via the :doc:`pair\_coeff <pair_coeff>` command as in the examples
+above, or in the data file or restart files read by the
+:doc:`read\_data <read_data>` or :doc:`read\_restart <read_restart>`
+commands, or by mixing as described below:
+
+* epsilon (energy units)
+* sigma (distance units)
+* epsilon\_14 (energy units)
+* sigma\_14 (distance units)
+
+Note that sigma is defined in the LJ formula as the zero-crossing
+distance for the potential, not as the energy minimum at 2\^(1/6)
+sigma.
+
+The latter 2 coefficients are optional.  If they are specified, they
+are used in the LJ formula between 2 atoms of these types which are
+also first and fourth atoms in any dihedral.  No cutoffs are specified
+because this CHARMM force field does not allow varying cutoffs for
+individual atom pairs; all pairs use the global cutoff(s) specified in
+the pair\_style command.
+
+
+----------
+
+
+Styles with a *cuda*\ , *gpu*\ , *omp*\ , or *opt* suffix are functionally
+the same as the corresponding style without the suffix.  They have
+been optimized to run faster, depending on your available hardware, as
+discussed in :doc:`Section\_accelerate <Section_accelerate>` of the
+manual.  The accelerated styles take the same arguments and should
+produce the same results, except for round-off and precision issues.
+
+These accelerated styles are part of the USER-CUDA, GPU, USER-OMP and OPT
+packages, respectively.  They are only enabled if LAMMPS was built with
+those packages.  See the :ref:`Making LAMMPS <start_3>`
+section for more info.
+
+You can specify the accelerated styles explicitly in your input script
+by including their suffix, or you can use the :ref:`-suffix command-line switch <start_7>` when you invoke LAMMPS, or you can
+use the :doc:`suffix <suffix>` command in your input script.
+
+See :doc:`Section\_accelerate <Section_accelerate>` of the manual for
+more instructions on how to use the accelerated styles effectively.
+
+
+----------
+
+
+**Mixing, shift, table, tail correction, restart, rRESPA info**\ :
+
+For atom type pairs I,J and I != J, the epsilon, sigma, epsilon\_14,
+and sigma\_14 coefficients for all of the lj/charmm pair styles can be
+mixed.  The default mix value is *arithmetic* to coincide with the
+usual settings for the CHARMM force field.  See the "pair\_modify"
+command for details.
+
+None of the lj/charmm pair styles support the
+:doc:`pair\_modify <pair_modify>` shift option, since the Lennard-Jones
+portion of the pair interaction is smoothed to 0.0 at the cutoff.
+
+The *lj/charmm/coul/long* style supports the
+:doc:`pair\_modify <pair_modify>` table option since it can tabulate the
+short-range portion of the long-range Coulombic interaction.
+
+None of the lj/charmm pair styles support the
+:doc:`pair\_modify <pair_modify>` tail option for adding long-range tail
+corrections to energy and pressure, since the Lennard-Jones portion of
+the pair interaction is smoothed to 0.0 at the cutoff.
+
+All of the lj/charmm pair styles write their information to :doc:`binary restart files <restart>`, so pair\_style and pair\_coeff commands do
+not need to be specified in an input script that reads a restart file.
+
+The lj/charmm/coul/long pair style supports the use of the *inner*\ ,
+*middle*\ , and *outer* keywords of the :doc:`run\_style respa <run_style>`
+command, meaning the pairwise forces can be partitioned by distance at
+different levels of the rRESPA hierarchy.  The other styles only
+support the *pair* keyword of run\_style respa.  See the
+:doc:`run\_style <run_style>` command for details.
+
+
+----------
+
+
+Restrictions
+""""""""""""
+
+
+The *lj/charmm/coul/charmm* and *lj/charmm/coul/charmm/implicit*
+styles are part of the MOLECULE package.  The *lj/charmm/coul/long*
+style is part of the KSPACE package.  They are only enabled if LAMMPS
+was built with those packages.  See the :ref:`Making LAMMPS <start_3>` section for more info.  Note that
+the MOLECULE and KSPACE packages are installed by default.
+
+Related commands
+""""""""""""""""
+
+:doc:`pair\_coeff <pair_coeff>`
+
+**Default:** none
+
+
+----------
+
+
+.. _MacKerell:
+
+
+
+**(MacKerell)** MacKerell, Bashford, Bellott, Dunbrack, Evanseck, Field,
+Fischer, Gao, Guo, Ha, et al, J Phys Chem, 102, 3586 (1998).
+
+

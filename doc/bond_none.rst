@@ -1,0 +1,37 @@
+.. index:: bond\_style none
+
+bond\_style none command
+========================
+
+Syntax
+""""""
+
+
+.. parsed-literal::
+
+   bond_style none
+
+Examples
+""""""""
+
+
+.. parsed-literal::
+
+   bond_style none
+
+Description
+"""""""""""
+
+Using a bond style of none means bond forces are not computed, even if
+pairs of bonded atoms were listed in the data file read by the
+:doc:`read\_data <read_data>` command.
+
+Restrictions
+""""""""""""
+ none
+
+**Related commands:** none
+
+**Default:** none
+
+

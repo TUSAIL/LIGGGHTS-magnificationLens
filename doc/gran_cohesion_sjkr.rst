@@ -1,0 +1,56 @@
+gran cohesion sjkr
+==================
+
+Syntax
+""""""
+
+
+.. parsed-literal::
+
+   cohesion sjkr
+
+**LIGGGHTS vs. LAMMPS Info:**
+
+This part of :doc:`pair gran <pair_gran>` and 
+:doc:`fix wall/gran <fix_wall_gran>`
+is not available in LAMMPS.
+
+Description
+"""""""""""
+
+This model can be used as part of :doc:`pair gran <pair_gran>` and 
+:doc:`fix wall/gran <fix_wall_gran>`
+
+The simplified JKR - Johnson-Kendall-Roberts (SJKR) model adds an additional normal force
+contribution. If two particle are in contact, it adds an additional normal force tending 
+to maintain the contact, which writes
+
+F = k A,
+
+where A is the particle contact area and k is the cohesion energy density in J/m3. 
+For *sjkr*\ , the sphere-sphere contact area is calculated as (http://mathworld.wolfram.com/Sphere-SphereIntersection.html)
+
+A = Pi/4 \* ((dist-Ri-Rj)\*(dist+Ri-Rj)\*(dist-Ri+Rj)\*(dist+Ri+Rj) )/(dist\*dist)
+
+where dist is the distance between the particle centers.
+
+If you are using the SJKR model, you must also define the cohesion energy density:
+
+
+.. parsed-literal::
+
+   fix id all property/global cohesionEnergyDensity peratomtypepair n_atomtypes value_11 value_12 .. value_21 value_22 .. .
+       (value_ij=value for the cohesion energy density (in Energy/Length3 units) between atom type i and j; n_atomtypes is the number of atom types you want to use in your simulation)
+
+.. warning::
+
+   You have to use atom styles beginning from 1, e.g. 1,2,3,...
+
+Restrictions
+""""""""""""
+
+
+The cohesion model has been derived for the Hertzian Style, it may note be 
+appropriate for the Hookean styles.
+
+
