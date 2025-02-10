@@ -48,7 +48,6 @@
 #include "vector_liggghts.h"
 #include "volume_mesh.h"
 #include "probability_distribution.h"
-
 using namespace LAMMPS_NS;
 using namespace FixConst;
 
@@ -630,7 +629,7 @@ int FixInsert::calc_ninsert_this()
 void FixInsert::pre_exchange()
 {
   /*NL*/ if(LMP_DEBUGMODE_FIXINSERT) {MPI_Barrier(world); fprintf(LMP_DEBUG_OUT_FIXINSERT,"FixInsert::pre_exchange 1\n");}
-
+  fflush(stdout);
   int ninsert_this, ninsert_this_local; // global and local # bodies to insert this time-step
 
   // just return if should not be called on this timestep
@@ -753,10 +752,13 @@ void FixInsert::pre_exchange()
 
   // actual particle insertion
 
+
   fix_distribution->pre_insert(ninserted_this_local,fix_property,fix_property_value,property_index,fix_property_ivalue,property_iindex);
 
   //NP pti list is body list, so use ninserted_this as arg
+
   ninserted_spheres_this_local = fix_distribution->insert(ninserted_this_local);
+
 
   // warn if max # insertions exceeded by random processes
   if (ninsert_exists && ninserted + ninsert_this > ninsert)
@@ -772,7 +774,14 @@ void FixInsert::pre_exchange()
 
   if (atom->tag_enable)
   {
+  // setting atom tags to zero, since in case of deleting atoms,
+  // cfdemcoupling is allocating arrays to the size of the maxtag in case magnification lens and allocates a lot of RAM!
+    int nlocal = atom->nlocal;
+    int *tag = atom->tag;
+    for (int i = 0; i < nlocal; i++) tag[i] = 0;
+    
     atom->tag_extend();
+
     atom->natoms += static_cast<double>(ninserted_spheres_this);
     if (atom->map_style)
     {
@@ -788,7 +797,9 @@ void FixInsert::pre_exchange()
   //NP multisphere things here if needed
   //NP setup inserted particles, overwrites particle velocity, which needs to be set to fulfill rigid body constraint
   //NP also sets molecule id
+
   fix_distribution->finalize_insertion();
+
 
   if (atom->molecular && atom->molecule_flag)
   {
