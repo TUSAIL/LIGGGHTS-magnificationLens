@@ -827,8 +827,8 @@ double RegHexMesh::volume_of_hex(double** v)
   for(int i=0; i<8; ++i) {
     hexahedron->GetPoints()->SetPoint(i, v[i][0], v[i][1], v[i][2]);
   }
-
-  return vtkMeshQuality::HexVolume(hexahedron.GetPointer());
+  // it is safe to return the absolute value of the volume
+  return fabs(vtkMeshQuality::HexVolume(hexahedron.GetPointer()));
 }
 
 /* ---------------------------------------------------------------------- */
