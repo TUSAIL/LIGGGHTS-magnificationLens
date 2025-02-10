@@ -56,7 +56,7 @@ class FixParticledistributionDiscreteFace : public FixParticledistribution {
 
   int insert(int n);
 
-  void set_distribution_local(const std::vector<DiscreteParticleDistribution>& distributions, const std::vector<std::vector<int> > & distributions_face_local, double cg, int type_offset);
+  void set_distribution_local(const std::vector<DiscreteParticleDistribution>& distributions, const std::vector<std::vector<int> > & distributions_face_local, double cg, int type_offset, int startIndex_=0, int endIndex_=-1);
 
  protected:
 

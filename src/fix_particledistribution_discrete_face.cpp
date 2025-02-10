@@ -78,7 +78,7 @@ void FixParticledistributionDiscreteFace::delete_pti_list_face_local()
 
 /* ----------------------------------------------------------------------*/
 
-void FixParticledistributionDiscreteFace::set_distribution_local(const std::vector<DiscreteParticleDistribution>& distributions, const std::vector<std::vector<int> > & distributions_face_local, double cg, int type_offset)
+void FixParticledistributionDiscreteFace::set_distribution_local(const std::vector<DiscreteParticleDistribution>& distributions, const std::vector<std::vector<int> > & distributions_face_local, double cg, int type_offset, int startIndex_, int endIndex_)
 {
   // TODO: cg = force->cg() can be used when differently resolved levels are separate simulations -> remove parameter
   //       also, type_offset will be 0 in that case
@@ -94,21 +94,22 @@ void FixParticledistributionDiscreteFace::set_distribution_local(const std::vect
 
   if(distributions.empty()) return;
 
-  int n_face_ids = distributions.size();
+  if (endIndex_ < 0) endIndex_ = distributions.size()-1;
+  int n_face_ids = endIndex_ - startIndex_ + 1;//distributions.size();
 
   pti_list_face_local.resize(n_face_ids);
-  for(int iface=0; iface<n_face_ids; ++iface)
+  for(int iface=startIndex_; iface<=endIndex_; ++iface)
   {
     DiscreteParticleDistribution::const_iterator it_dist = distributions[iface].begin();
     for(int idist=0; it_dist!=distributions[iface].end(); ++it_dist, ++idist)
     {
       int type = it_dist->first.atomtype_ + type_offset;
 
-      double radius = it_dist->first.radius_ * cg;
+      double radius = it_dist->first.radius_;
       if(radius > maxrad) maxrad = radius;
       else if(radius < minrad)  minrad = radius;
+      int ntemplates_to_insert = distributions_face_local[iface-startIndex_][idist];
 
-      int ntemplates_to_insert = distributions_face_local[iface][idist];
       for(int itemplate=0; itemplate<ntemplates_to_insert; ++itemplate)
       {
         ParticleToInsert *pti = new ParticleToInsert(lmp);
@@ -122,7 +123,7 @@ void FixParticledistributionDiscreteFace::set_distribution_local(const std::vect
         vectorZeroize3D(pti->v_ins);
         vectorZeroize3D(pti->omega_ins);
         pti->groupbit = groupbit;
-        pti_list_face_local[iface].push_back(pti);
+        pti_list_face_local[iface-startIndex_].push_back(pti);
         ++n_pti_max;
         volexpect  += pti->mass_ins*pti->volume_ins;
         massexpect += pti->mass_ins*pti->mass_ins;
