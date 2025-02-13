@@ -1,4 +1,4 @@
-# LIGGGHTS
+# LIGGGHTS-magnificationLens 
 
 LIGGGHTS® - LAMMPS Improved for General Granular and Granular Heat Transfer Simulations - is a discrete element method (DEM) particle simulation software.
 LIGGGHTS® is part of the [CFDEM®project](https://www.cfdem.com) and is based on the molecular dynamics simulation code [LAMMPS](https://lammps.sandia.gov/).
@@ -13,9 +13,15 @@ LIGGGHTS® is part of the [CFDEM®project](https://www.cfdem.com) and is based o
 > LIGGGHTS® and CFDEM® are registered trademarks, and this offering is not approved or
 endorsed by DCS Computing GmbH, the official producer of the LIGGGHTS® and CFDEM®coupling software.
 
-## Installation
+## Features
+This LIGGGHTS version is designed to be compatible with magnification lens solver [(pfmFOAM-magnificationLens)](https://github.com/behradesg/pfmFOAM-magnificationLens). It contains the necessary source code to receive data from CFDEMcoupling-magnification and insert the discrete particles.
 
-This is a short summary of how to install LIGGGHTS on Linux. A more comprehensive guide can be found in the documentation.
+
+## How to cite
+Behrad Esgandari, Daniel Queteschiner, Stefan Pirker, and Simon Schneiderbauer. "Discrete magnification lens model: A new hybrid multi-scale modelling method for fluid-particle systems." Powder Technology 445 (2024): 120094.
+
+## Installation
+First clone or download LIGGGHTS-magnificationLens repository, then change the folder name to LIGGGHTS.
 
 ### Install prerequisites
 
@@ -43,16 +49,6 @@ cmake ../src/
 make
 ```
 
-### Build LIGGGHTS with make
-
-```bash
-cd LIGGGHTS
-mkdir -p src-build
-cd src
-make fedora
-cp lmp_fedora ../src-build/liggghts
-```
-
 ### Add an alias
 
 You may want to create a permanent alias for the executable.
@@ -63,19 +59,6 @@ alias liggghts='~/CFDEM/LIGGGHTS/src-build/liggghts'
 source ~/.bashrc
 ```
 
-## Getting Started
-
-Navigate to the tutorials folder to run the chute_wear example case
-
-```bash
-cd ~/CFDEM/LIGGGHTS/examples/LIGGGHTS/Tutorials_public/chute_wear
-```
-
-Start the simulation by typing
-
-```bash
-liggghts -in in.chute_wear
-```
 
 ## License
 
