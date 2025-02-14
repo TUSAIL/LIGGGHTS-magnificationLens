@@ -14,7 +14,7 @@ LIGGGHTS® is part of the [CFDEM®project](https://www.cfdem.com) and is based o
 endorsed by DCS Computing GmbH, the official producer of the LIGGGHTS® and CFDEM®coupling software.
 
 ## Features
-This LIGGGHTS version is designed to be compatible with magnification lens solver [(pfmFOAM-magnificationLens)](https://github.com/behradesg/pfmFOAM-magnificationLens). It contains the necessary source code to receive data from CFDEMcoupling-magnification and insert the discrete particles.
+This LIGGGHTS version is designed to be compatible with magnification lens solver [(pfmFOAM-magnificationLens)](https://github.com/TUSAIL/pfmFOAM-magnificationLens). It contains the necessary source code to receive data from CFDEMcoupling-magnification and insert the discrete particles.
 
 
 ## How to cite
